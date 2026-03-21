@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>git init universe</title>
-  <meta name="description" content="The Universe Is Running on Git (And Quantum Mechanics Proves It)">
+  <meta name="description" content="The Universe Is Running on Git">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -90,6 +90,94 @@
       text-decoration: underline;
     }
 
+    .hint-wrap {
+      position: relative;
+      display: inline;
+    }
+
+    .hint {
+      color: #58a6ff;
+      cursor: pointer;
+      font-size: 0.75em;
+      vertical-align: super;
+      padding: 0 2px;
+    }
+
+    .hint:hover {
+      text-decoration: underline;
+    }
+
+    .hint-popup {
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1c2128;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 8px 12px;
+      color: #c9d1d9;
+      font-size: 14px;
+      line-height: 1.5;
+      white-space: nowrap;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      z-index: 10;
+    }
+
+    .hint-popup::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-top-color: #30363d;
+    }
+
+    details {
+      background: #161b22;
+      border: 1px solid #21262d;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      overflow: hidden;
+    }
+
+    details summary {
+      padding: 12px 16px;
+      cursor: pointer;
+      color: #f0f6fc;
+      font-weight: 600;
+      font-size: 0.95em;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    details summary::-webkit-details-marker { display: none; }
+
+    details summary::before {
+      content: '▶';
+      font-size: 0.7em;
+      color: #484f58;
+      transition: transform 0.2s;
+    }
+
+    details[open] summary::before {
+      transform: rotate(90deg);
+    }
+
+    details summary:hover {
+      background: #1c2128;
+    }
+
+    details > p, details > ul {
+      padding: 0 16px 14px;
+      color: #8b949e;
+      font-size: 0.92em;
+      line-height: 1.7;
+    }
+
     @media (max-width: 600px) {
       body { font-size: 16px; }
       article { padding: 40px 16px; }
@@ -99,12 +187,48 @@
 </head>
 <body>
   <article id="content"></article>
+  <script src="double-slit.js"></script>
+  <script src="quantum-eraser.js"></script>
+  <script src="delayed-choice.js"></script>
+  <script src="entanglement.js"></script>
+  <script src="decoherence.js"></script>
+  <script src="transaction.js"></script>
+  <script src="git-log.js"></script>
+  <script src="vacuum.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
     fetch('article.md')
       .then(r => r.text())
       .then(md => {
         document.getElementById('content').innerHTML = marked.parse(md);
+        tryInitDoubleSlit();
+        tryInitQuantumEraser();
+        tryInitDelayedChoice();
+        tryInitEntanglement();
+        tryInitDecoherence();
+        tryInitTransaction();
+        tryInitGitLog();
+        tryInitVacuum();
+        document.querySelectorAll('.hint').forEach(el => {
+          const wrap = document.createElement('span');
+          wrap.className = 'hint-wrap';
+          el.parentNode.insertBefore(wrap, el);
+          wrap.appendChild(el);
+
+          el.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const existing = wrap.querySelector('.hint-popup');
+            if (existing) { existing.remove(); return; }
+            document.querySelectorAll('.hint-popup').forEach(p => p.remove());
+            const popup = document.createElement('span');
+            popup.className = 'hint-popup';
+            popup.textContent = el.dataset.hint;
+            wrap.appendChild(popup);
+          });
+        });
+        document.addEventListener('click', () => {
+          document.querySelectorAll('.hint-popup').forEach(p => p.remove());
+        });
       });
   </script>
 </body>
