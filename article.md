@@ -1,14 +1,33 @@
 # The Universe Is Running on Git
 
-The universe has a dirty secret.
+Reality doesn't exist until something forces it to.
 
-At its most fundamental level, reality doesn't actually exist until something forces it to. Particles<sup class="hint" data-hint="electrons, photons, quarks — the tiny things everything is made of">?</sup> don't have definite positions, histories, or states until they interact with something else. The past isn't written until the present looks back at it.
+The past isn't written until the present looks back at it.
 
-Physicists have known this since the 1920s. They call it quantum mechanics. And for a century, it's been trapped in a language only physicscel speak.
+Physicists have known this since the 1920s. A century of explanations and it still doesn't click for most people.
 
-You speak Git. So let's do this properly.
+You speak Git.
 
 The universe is running on Git.
+
+<p class="subtitle">This is the Git Interpretation of quantum mechanics.</p>
+
+<nav class="toc">
+
+1. [The Double Slit Experiment](#the-double-slit-experiment-why-does-reality-care-if-youre-watching)
+2. [Observation Is the Commit](#observation-is-the-commit)
+3. [The Quantum Eraser](#the-quantum-eraser-nothing-is-committed-until-the-secret-is-gone)
+4. [The Delayed Choice Experiment](#the-delayed-choice-experiment-git-push---force)
+5. [Quantum Entanglement](#quantum-entanglement-one-commit-two-particles-no-distance)
+6. [Decoherence](#decoherence-the-merge-conflict)
+7. [The Universe's git log](#the-universes-git-log)
+8. [What It Actually Means](#what-it-actually-means)
+9. [The Symphony](#the-symphony)
+10. [The Rabbit Hole Goes Deeper](#the-rabbit-hole-goes-deeper)
+11. [Quantum Computers](#bonus-quantum-computers-are-trying-to-hack-the-universe)
+12. [FAQ](#faq)
+
+</nav>
 
 ## The Double Slit Experiment: Why Does Reality Care If You're Watching?
 
@@ -36,6 +55,7 @@ The universe's rule is brutally specific:
 
 > Did this interaction reveal which path was taken? Yes → collapse. No → wave survives.
 
+
 ## Observation Is the Commit
 
 In Git terms: the photon is a pull request being broadcast to the entire universe, looking for something to merge into.
@@ -58,20 +78,20 @@ branch: photon-both-slits    # real, exists
 main:                        # empty. waiting for a receiver.
 ```
 
-The moment a detector responds — any physical interaction that leaks information about the photon's path — the universe receives the signal, picks one branch, merges it to main. The rest don't go somewhere else. They don't split into parallel realities. They simply never completed. The offer went out. No confirmation came back.
+The moment a detector responds (any physical interaction that leaks information about the photon's path), the universe receives the signal, picks one branch, merges it to main. The rest don't go somewhere else. They simply never completed. The offer went out. No confirmation came back.
 
 ```bash
-# detector: receives signal
-RESPOND confirmation ←
+# ← detector receives signal
+# → confirmation sent back
 
-# transaction complete
-git merge photon-left-slit
-git branch -D photon-right-slit   # gone forever
-git branch -D photon-both-slits   # gone forever
-git branch -D photon-neither      # gone forever
+git merge photon-left-slit        # ✓ transaction complete
+
+git branch -D photon-right-slit   # ✗ offer never completed
+git branch -D photon-both-slits   # ✗ offer never completed
+git branch -D photon-neither      # ✗ offer never completed
 ```
 
-One branch survives and becomes reality. The rest were offers that never completed. Transactions that never closed. They weren't destroyed — they were never finalized to begin with.
+One branch survives and becomes reality. The rest were offers that never completed. Transactions that never closed. They weren't destroyed, they were never finalized to begin with.
 
 And once merged to main, there is no git revert for observations. The photon cannot go back to being a wave. Ever. The universe doesn't undo measurements. The past, once written, stays written.
 
@@ -91,13 +111,13 @@ Then they added a second device after the detector that scrambles and destroys t
 
 The interaction still happened. The photon was still physically disturbed. Exactly the same as before.
 
-But the information about which slit — gone. Erased. Nobody knows. Nobody can know.
+But the information about which slit? Gone. Erased. Nobody knows. Nobody can know.
 
 Stripes came back.
 
 <div id="quantum-eraser-sim"></div>
 
-And if the erasure is incomplete? The universe knows. Even a partial trace of which-path information partially collapses the wave. No backup survives unnoticed. The universe isn't checking the eraser — it's checking all of reality.
+And if the erasure is incomplete? The universe knows. Even a partial trace of which-path information partially collapses the wave. No backup survives unnoticed. The universe isn't checking the eraser, it's checking all of reality.
 
 So it's not the interaction that triggers the collapse. It's specifically whether the which-path information survived to exist somewhere in the universe.
 
@@ -124,9 +144,11 @@ The dot landing is git add. The information surviving is the actual git push.
 
 Nothing is truly committed until the secret of the path is irreversibly gone.
 
+## The Delayed Choice Experiment: git push --force
+
 And then it gets worse.
 
-They did a delayed choice quantum eraser. Same setup. But the erasing happens AFTER the photon already hit the screen and left a dot. The dot is already there. Already recorded.
+They did a delayed choice quantum eraser. Same setup as above. But the erasing happens AFTER the photon already hit the screen and left a dot. The dot is already there. Already recorded.
 
 Then they erase the which-path information.
 
@@ -150,11 +172,7 @@ The present rewrote what a dot that already landed meant.
 
 The universe has no concept of "already done" until information is truly, permanently, irreversibly pushed.
 
-## The Delayed Choice Experiment: git push --force
-
-So we know the universe keeps the commit open until information is permanently locked.
-
-But how long can it hold it open?
+So how long can it hold it open?
 
 In 1978, physicist John Wheeler asked: What if you wait until after the photon has already passed the slits, and then decide whether to push or erase?
 
@@ -164,14 +182,14 @@ Experiments proved it does.
 
 <div id="delayed-choice-sim"></div>
 
-The photon's behavior at the slits — wave or particle — was retroactively determined by a decision made after it had already passed them. The universe held the push open across the gap in time. Waiting.
+The photon's behavior at the slits (wave or particle) was retroactively determined by a decision made after it had already passed them. The universe held the push open across the gap in time. Waiting.
 
 ```bash
 # photon passes slits
 # status: staged. not pushed.
 # universe: waiting for your decision.
 
-# you decide to observe — after the fact
+# you decide to observe. after the fact
 git push --force
 
 # commit retroactively timestamped: the moment it passed the slits
@@ -182,13 +200,15 @@ The universe doesn't change the past. It writes it, for the first time, in the p
 
 And the scale of this is staggering.
 
-Light from a star 5 light years away has been travelling for 5 years before it hits your telescope. That entire journey — staged. Not pushed. The universe holding the commit open across 5 years of empty space.
+Light from a star 5 light years away has been travelling for 5 years before it hits your telescope. That entire journey: staged. Not pushed. The universe holding the commit open across 5 years of empty space.
 
 Astronomers have actually done this with quasars billions of light years away. The photon left before Earth existed. Before the solar system existed.
 
 A PR open and broadcasting for 5 billion years. All branches alive. Every possibility real. Commit staged but never pushed.
 
 You point a telescope at it.
+
+<div id="quasar-sim"></div>
 
 ```bash
 # receiver found after 5,000,000,000 years
@@ -211,15 +231,19 @@ The delayed choice experiment proves the universe holds commits open across time
 
 Entanglement proves it holds them open across space.
 
-Two particles meet and interact. One transaction. One shared commit. They are now permanently linked in the universe's git log.
+Two particles meet and interact. One transaction. One shared state. They are now permanently linked.
 
 Now separate them. Send one to New York. Send the other to Tokyo. Thousands of miles apart. No connection. No wire. No signal between them.
 
-You observe the one in New York. It snaps into a definite state. Spin up.
+You observe the one in New York. It snaps into a definite state. Spin up<sup class="hint" data-hint="spin is just a quantum property with two possible values: up or down. Think of it as a coin: heads or tails. Not literally spinning.">?</sup>.
 
-Instantly — not after a light speed delay, instantly — the one in Tokyo snaps into the opposite state. Spin down.
+Instantly (not after a light speed delay, instantly) the one in Tokyo snaps into the opposite state. Spin down.
 
 Every time. Without fail. Regardless of distance.
+
+Think of it like sealed envelopes. You and a friend each grab one from the same table. You fly to New York, they fly to Tokyo. You open yours: blue card. You instantly know theirs is red. Not because opening yours sent a signal, but because they were paired at the table.
+
+Except quantum mechanics is weirder than envelopes. With envelopes, the cards were already decided when you grabbed them. With entangled particles, there were no cards in the envelopes until you opened one. The act of opening created both cards simultaneously.
 
 <div id="entanglement-sim"></div>
 
@@ -251,7 +275,7 @@ Einstein hated this. He called it "spooky action at a distance" and spent years 
 
 He wasn't wrong about it being spooky.
 
-Physicists have tested this exhaustively. No hidden signal. No secret communication. No lag. The universe simply enforces consistency between two entries that share a commit — instantly, regardless of how far apart the hardware is.
+Physicists have tested this exhaustively. No hidden signal. No secret communication. No lag. The universe simply enforces consistency between two entries that share a commit, instantly, regardless of how far apart the hardware is.
 
 The delayed choice experiment: the universe holds a commit open across time.
 Entanglement: the universe enforces commit consistency across space.
@@ -357,9 +381,9 @@ The symphony has been playing you the entire time.
 
 Two more experiments that break everything we just built. Coming soon.
 
-**The Black Hole Information Paradox** — black holes might be the only thing in the universe that can permanently delete the git log. Which should be impossible. Hawking proved they do it anyway.
+**The Black Hole Information Paradox**: black holes might be the only thing in the universe that can permanently delete the git log. Which should be impossible. Hawking proved they do it anyway.
 
-**Vacuum Fluctuations** — empty space isn't empty. The universe spontaneously opens PRs from nothing, immediately deletes them, billions of times per second, everywhere, for no reason. Even nothing can't stay nothing.
+**Vacuum Fluctuations**: empty space isn't empty. The universe spontaneously opens PRs from nothing, immediately deletes them, billions of times per second, everywhere, for no reason. Even nothing can't stay nothing.
 
 <div id="vacuum-sim"></div>
 
@@ -395,61 +419,61 @@ We're just trying to finish the calculation first.
 <details>
 <summary>Wait, so nothing is real until something looks at it?</summary>
 
-Not exactly. Nothing is *definite* until it interacts with something else. The photon isn't fake before it hits the screen — it's genuinely in all states at once. The interaction doesn't reveal a pre-existing answer. It forces one answer to exist and every other possibility to never complete. Reality isn't hiding. It's just not finished yet.
+Not exactly. Nothing is *definite* until it interacts with something else. The photon isn't fake before it hits the screen, it's genuinely in all states at once. The interaction doesn't reveal a pre-existing answer. It forces one answer to exist and every other possibility to never complete. Reality isn't hiding. It's just not finished yet.
 </details>
 
 <details>
 <summary>Does this mean human consciousness causes the collapse?</summary>
 
-No. This is the biggest misconception in quantum mechanics. A rock can collapse a wave. A thermometer can. A stray air molecule can. When a photon bounces off a rock, the rock heats up by an immeasurably tiny amount. That thermal change IS the information — encoded in the physical state of the rock's atoms. The rock doesn't need to "know" anything. It just needs to be physically altered in a way that's different depending on which path the photon took. The universe doesn't need anyone to read the information. It just needs it to exist somewhere — in any form, in any object, readable or not.
+No. This is the biggest misconception in quantum mechanics. A rock can collapse a wave. A thermometer can. A stray air molecule can. When a photon bounces off a rock, the rock heats up by an immeasurably tiny amount. That thermal change IS the information, encoded in the physical state of the rock's atoms. The rock doesn't need to "know" anything. It just needs to be physically altered in a way that's different depending on which path the photon took. The universe doesn't need anyone to read the information. It just needs it to exist somewhere, in any form, in any object, readable or not.
 </details>
 
 <details>
 <summary>If I stop observing something, does it go back to being a wave?</summary>
 
-No. Once the transaction completes and information is permanently recorded, it's done. There is no `git revert` for observations. However — and this is the quantum eraser's point — if you destroy the information *before* it becomes permanent, the wave behavior can be restored. The key is whether the information survived, not whether you're currently looking.
+No. Once the transaction completes and information is permanently recorded, it's done. There is no `git revert` for observations. However, and this is the quantum eraser's point, if you destroy the information *before* it becomes permanent, the wave behavior can be restored. The key is whether the information survived, not whether you're currently looking.
 </details>
 
 <details>
 <summary>Are parallel universes real then?</summary>
 
-Depends who you ask. The Many-Worlds Interpretation says yes — every possibility branches into its own universe. This article follows the Transactional Interpretation, where the other possibilities were offers that never completed. They weren't destroyed and they didn't branch off — they simply never finalized. Different interpretations, same math, same experimental results. Nobody knows which one is "right."
+Depends who you ask. The Many-Worlds Interpretation says yes, every possibility branches into its own universe. This article follows the Transactional Interpretation, where the other possibilities were offers that never completed. They weren't destroyed and they didn't branch off, they simply never finalized. Different interpretations, same math, same experimental results. Nobody knows which one is "right."
 </details>
 
 <details>
 <summary>How do scientists know the photon goes through both slits? Did they see it?</summary>
 
-That's the whole point — they can't see it without collapsing it. But the interference pattern on the screen is proof. A single photon, fired alone, lands in a position consistent with a wave that passed through *both* slits and interfered with itself. Do this thousands of times and you get stripes. That pattern is mathematically impossible if the photon only went through one slit. The evidence is the pattern, not direct observation.
+That's the whole point, they can't see it without collapsing it. But the interference pattern on the screen is proof. A single photon, fired alone, lands in a position consistent with a wave that passed through *both* slits and interfered with itself. Do this thousands of times and you get stripes. That pattern is mathematically impossible if the photon only went through one slit. The evidence is the pattern, not direct observation.
 </details>
 
 <details>
 <summary>Does this mean the past doesn't exist?</summary>
 
-The past exists — once it's been written. The delayed choice experiment shows that some aspects of the past aren't written until the present forces them to be. The photon's path through the slits isn't decided until a later measurement locks it in. But once locked in, it's permanent. The past is real. It's just not always as old as you think it is.
+The past exists, once it's been written. The delayed choice experiment shows that some aspects of the past aren't written until the present forces them to be. The photon's path through the slits isn't decided until a later measurement locks it in. But once locked in, it's permanent. The past is real. It's just not always as old as you think it is.
 </details>
 
 <details>
 <summary>If entangled particles communicate instantly, can we use that to send messages faster than light?</summary>
 
-No. This is the cruel joke of entanglement. When you observe particle A, you get a random result — spin up or spin down, 50/50. Particle B instantly snaps to the opposite, but the person in Tokyo just sees a random result too. They have no way of knowing whether you've observed yours yet. The correlation only becomes visible when you *compare notes* — which requires normal communication at light speed or slower. The universe enforces consistency without leaking information. It's spooky, but it's not a radio.
+No. This is the cruel joke of entanglement. When you observe particle A, you get a random result (spin up or spin down, 50/50). Particle B instantly snaps to the opposite, but the person in Tokyo just sees a random result too. They have no way of knowing whether you've observed yours yet. The correlation only becomes visible when you *compare notes*, which requires normal communication at light speed or slower. The universe enforces consistency without leaking information. It's spooky, but it's not a radio.
 </details>
 
 <details>
 <summary>Why can't I be in two places at once if particles can?</summary>
 
-Decoherence. You are being hit by 10²⁵ atoms every nanosecond — air, photons, gravity, heat. Each interaction is a merge conflict that forces you into one definite state. A photon in an isolated lab can hold its quantum state because we've engineered silence around it. You are the opposite of silence. You are the loudest, most constantly observed thing in your environment. The wave never had a chance.
+Decoherence. You are being hit by 10²⁵ atoms every nanosecond: air, photons, gravity, heat. Each interaction is a merge conflict that forces you into one definite state. A photon in an isolated lab can hold its quantum state because we've engineered silence around it. You are the opposite of silence. You are the loudest, most constantly observed thing in your environment. The wave never had a chance.
 </details>
 
 <details>
 <summary>Is the universe actually a simulation?</summary>
 
-This article doesn't claim that. The Git metaphor is a way to understand the mechanics, not a literal claim about the universe's architecture. That said — the fact that reality only renders when observed, holds states open until forced to commit, and enforces consistency across space and time without any signal... does sound like something a very efficient system would do. Make of that what you will.
+This article doesn't claim that. The Git metaphor is a way to understand the mechanics, not a literal claim about the universe's architecture. That said, the fact that reality only renders when observed, holds states open until forced to commit, and enforces consistency across space and time without any signal... does sound like something a very efficient system would do. Make of that what you will.
 </details>
 
 <details>
 <summary>What's the difference between "undefined" and "we just don't know yet"?</summary>
 
-This is the most important question on this list. "We just don't know yet" implies there IS a definite answer and we're ignorant of it. Quantum mechanics says no — there is no answer yet. The particle genuinely has no definite position. It's not hiding. It's not that our instruments aren't good enough. Bell's theorem, tested experimentally many times, proved that no hidden answer exists before measurement. The particle is undefined the way an uninitialized variable is undefined — not "it has a value and I haven't read it," but "there is no value until something assigns one."
+This is the most important question on this list. "We just don't know yet" implies there IS a definite answer and we're ignorant of it. Quantum mechanics says no, there is no answer yet. The particle genuinely has no definite position. It's not hiding. It's not that our instruments aren't good enough. Bell's theorem, tested experimentally many times, proved that no hidden answer exists before measurement. The particle is undefined the way an uninitialized variable is undefined: not "it has a value and I haven't read it," but "there is no value until something assigns one."
 </details>
 
 <details>
@@ -461,55 +485,55 @@ Basically, yes. The universe doesn't compute the position of every particle in a
 <details>
 <summary>Can quantum mechanics be used to time travel?</summary>
 
-Not in the sci-fi sense. The delayed choice experiment shows the present can determine aspects of the past that were never committed — but it can't change things that were already pushed. You can't go back and alter a committed observation. What you can do is influence how uncommitted events get finalized. It's not time travel. It's more like the universe hasn't finished writing the past yet, and you get to be the one who finalizes it.
+Not in the sci-fi sense. The delayed choice experiment shows the present can determine aspects of the past that were never committed, but it can't change things that were already pushed. You can't go back and alter a committed observation. What you can do is influence how uncommitted events get finalized. It's not time travel. It's more like the universe hasn't finished writing the past yet, and you get to be the one who finalizes it.
 </details>
 
 <details>
 <summary>What happens if you entangle three particles instead of two?</summary>
 
-It works. It's called multipartite entanglement, and physicists do it routinely. Three, four, even dozens of particles can share one entangled state. Observe any one of them and the rest all snap into consistent states instantly. The more particles entangled, the harder it is to maintain — decoherence hits harder with more particles. But the principle scales. One commit, many particles, all consistent. Same rule.
+It works. It's called multipartite entanglement, and physicists do it routinely. Three, four, even dozens of particles can share one entangled state. Observe any one of them and the rest all snap into consistent states instantly. The more particles entangled, the harder it is to maintain, decoherence hits harder with more particles. But the principle scales. One commit, many particles, all consistent. Same rule.
 </details>
 
 <details>
 <summary>Is free will real if the universe decides outcomes randomly?</summary>
 
-Quantum mechanics doesn't answer this directly. The randomness is real — when a photon hits the screen, which specific spot it lands on is genuinely random. No hidden cause, no pattern, no algorithm. But randomness isn't the same as freedom. Whether the randomness in quantum mechanics leaves room for free will, or whether "you" are just the result of 10²⁵ atoms decohering in a specific pattern, is a question physics can't answer. That's philosophy. Physics just tells you the dice are real.
+Quantum mechanics doesn't answer this directly. The randomness is real: when a photon hits the screen, which specific spot it lands on is genuinely random. No hidden cause, no pattern, no algorithm. But randomness isn't the same as freedom. Whether the randomness in quantum mechanics leaves room for free will, or whether "you" are just the result of 10²⁵ atoms decohering in a specific pattern, is a question physics can't answer. That's philosophy. Physics just tells you the dice are real.
 </details>
 
 <details>
 <summary>If I measure an entangled particle, does the other one "feel" it?</summary>
 
-No. There's no signal, no force, no disturbance sent to the other particle. It doesn't "feel" anything. The two particles were never really separate — they share one entangled state, one commit. When you measure one, you're reading from the same commit the other one is part of. It's not communication. It's consistency. Like two people reading the same database row — neither one "told" the other what it says. They just both read the same record.
+No. There's no signal, no force, no disturbance sent to the other particle. It doesn't "feel" anything. The two particles were never really separate, they share one entangled state, one commit. When you measure one, you're reading from the same commit the other one is part of. It's not communication. It's consistency. Like two people reading the same database row, neither one "told" the other what it says. They just both read the same record.
 </details>
 
 <details>
 <summary>Has anyone ever observed a macroscopic object in superposition?</summary>
 
-Sort of. In 2019, researchers put a molecule of 2,000 atoms into a superposition — it went through both slits simultaneously, just like a photon. That's the largest object ever confirmed in superposition. But it's still microscopic by human standards. Anything larger decoheres almost instantly because of environmental interactions. A baseball in superposition would last for roughly 10⁻³⁰ seconds before the universe collapsed it. So technically possible, practically impossible.
+Sort of. In 2019, researchers put a molecule of 2,000 atoms into a superposition, it went through both slits simultaneously, just like a photon. That's the largest object ever confirmed in superposition. But it's still microscopic by human standards. Anything larger decoheres almost instantly because of environmental interactions. A baseball in superposition would last for roughly 10⁻³⁰ seconds before the universe collapsed it. So technically possible, practically impossible.
 </details>
 
 <details>
 <summary>Why does the universe use randomness? Why not just pick the same result every time?</summary>
 
-Nobody knows. This is one of the deepest open questions in physics. Einstein hated it — "God does not play dice." But every experiment confirms the randomness is fundamental, not a result of ignorance. There's no hidden pattern. No seed. No algorithm. The universe genuinely doesn't decide until it has to, and when it does, the outcome is truly random. Why? Physics doesn't say. It just measures.
+Nobody knows. This is one of the deepest open questions in physics. Einstein hated it: "God does not play dice." But every experiment confirms the randomness is fundamental, not a result of ignorance. There's no hidden pattern. No seed. No algorithm. The universe genuinely doesn't decide until it has to, and when it does, the outcome is truly random. Why? Physics doesn't say. It just measures.
 </details>
 
 <details>
 <summary>Can information be truly destroyed or does it always survive somewhere?</summary>
 
-This is the black hole information paradox — one of the biggest unsolved problems in physics. Quantum mechanics says information is always conserved. It can be scrambled, spread out, made unreadable — but never truly deleted. Black holes seem to violate this. Matter falls in, the black hole evaporates via Hawking radiation, and the information about what fell in appears to be gone. Permanently. Most physicists believe the information survives somehow, but nobody has proven how. The git log might have its first permanent deletion. Coming in a future article.
+This is the black hole information paradox, one of the biggest unsolved problems in physics. Quantum mechanics says information is always conserved. It can be scrambled, spread out, made unreadable, but never truly deleted. Black holes seem to violate this. Matter falls in, the black hole evaporates via Hawking radiation, and the information about what fell in appears to be gone. Permanently. Most physicists believe the information survives somehow, but nobody has proven how. The git log might have its first permanent deletion. Coming in a future article.
 </details>
 
 <details>
 <summary>Why should I trust the Transactional Interpretation over Copenhagen or Many-Worlds?</summary>
 
-You don't have to. All interpretations produce the same math and the same experimental predictions. None of them are "proven." Copenhagen says the wave collapses and don't ask why. Many-Worlds says everything happens and you just end up in one branch. The Transactional Interpretation says it's a handshake — offer, confirmation, transaction. This article uses it because it maps most naturally to how developers think: requests, responses, open transactions, commits. Pick the interpretation that helps you think most clearly. The universe doesn't care which one you believe.
+You don't have to. All interpretations produce the same math and the same experimental predictions. None of them are "proven." Copenhagen says the wave collapses and don't ask why. Many-Worlds says everything happens and you just end up in one branch. The Transactional Interpretation says it's a handshake: offer, confirmation, transaction. This article uses it because it maps most naturally to how developers think: requests, responses, open transactions, commits. Pick the interpretation that helps you think most clearly. The universe doesn't care which one you believe.
 </details>
 
 <details>
 <summary>What interpretation does this article follow and why?</summary>
 
-The Transactional Interpretation, proposed by physicist John Cramer. It models quantum events as a two-way handshake: an offer wave goes out, a confirmation wave comes back, and a transaction completes. It was chosen because it maps naturally onto concepts developers already understand — requests and responses, open and closed transactions, broadcasts searching for receivers. It's not the most popular interpretation (Copenhagen still holds that title), but it's arguably the most intuitive for anyone who's ever debugged a distributed system.
+The Transactional Interpretation, proposed by physicist John Cramer. It models quantum events as a two-way handshake: an offer wave goes out, a confirmation wave comes back, and a transaction completes. It was chosen because it maps naturally onto concepts developers already understand: requests and responses, open and closed transactions, broadcasts searching for receivers. It's not the most popular interpretation (Copenhagen still holds that title), but it's arguably the most intuitive for anyone who's ever debugged a distributed system.
 </details>
 
 ```
@@ -519,6 +543,6 @@ On branch: main
 Everything up to date.
 ```
 
-You just read this. The photons from your screen hit your eyes. Transaction complete. This moment — committed.
+You just read this. The photons from your screen hit your eyes. Transaction complete. This moment: committed.
 
 You just observed this article. It's committed now. No going back.
