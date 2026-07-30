@@ -10,7 +10,7 @@ function initQuantumEraser(container) {
   const modes = [
     { key: 'none', label: '🙈 No Detector', color: '#58a6ff' },
     { key: 'detector', label: '📷 Detector', color: '#f85149' },
-    { key: 'eraser', label: '📷🧹 Detector + Eraser', color: '#a371f7' },
+    { key: 'eraser', label: '🏷🧹 Tag + Eraser', color: '#a371f7' },
   ];
 
   let currentMode = 'none';
@@ -205,10 +205,14 @@ function initQuantumEraser(container) {
     if (!hasDetector()) return;
 
     const midSlitX = wallX + 14;
+    // In eraser mode the which-path info is a tag written into the photon itself
+    // (erasable), not an irreversible camera recording.
+    const isTag = currentMode === 'eraser';
+    const color = isTag ? '#e3b341' : '#f85149';
 
     // Spotlight cone
     ctx.globalAlpha = 0.06;
-    ctx.fillStyle = '#f85149';
+    ctx.fillStyle = color;
     ctx.beginPath();
     ctx.moveTo(midSlitX, 28);
     ctx.lineTo(wallX - 20, slitY1);
@@ -217,25 +221,23 @@ function initQuantumEraser(container) {
     ctx.fill();
     ctx.globalAlpha = 1;
 
-    // Camera
     ctx.font = '20px sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText('📷', midSlitX, 16);
+    ctx.fillText(isTag ? '🏷' : '📷', midSlitX, 16);
     ctx.textBaseline = 'alphabetic';
 
-    // REC
     const blink = Math.sin(time * 0.1) > 0;
     if (blink) {
-      ctx.fillStyle = '#f85149';
+      ctx.fillStyle = color;
       ctx.beginPath();
       ctx.arc(midSlitX + 22, 12, 3, 0, Math.PI * 2);
       ctx.fill();
     }
-    ctx.fillStyle = '#f85149';
+    ctx.fillStyle = color;
     ctx.font = 'bold 9px monospace';
     ctx.textAlign = 'left';
-    ctx.fillText('REC', midSlitX + 27, 15);
+    ctx.fillText(isTag ? 'TAG' : 'REC', midSlitX + 27, 15);
   }
 
   function drawEraser() {

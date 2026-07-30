@@ -35,7 +35,7 @@ function initDecoherence(container) {
     padding:6px 16px;border-top:1px solid #21262d;background:#161b22;
     color:#484f58;font-family:monospace;font-size:11px;text-align:center;
   `;
-  status.textContent = 'you. right now. no isolation. 10²⁵ interactions per nanosecond.';
+  status.textContent = 'you. right now. no isolation. billions of interactions every nanosecond.';
 
   wrapper.appendChild(canvas);
   wrapper.appendChild(sliderRow);
@@ -55,7 +55,7 @@ function initDecoherence(container) {
     { label: 'air', color: '#8b949e', emoji: '💨' },
     { label: 'photon', color: '#e3b341', emoji: '💡' },
     { label: 'heat', color: '#f85149', emoji: '🔥' },
-    { label: 'gravity', color: '#a371f7', emoji: '⬇' },
+    { label: 'vibration', color: '#a371f7', emoji: '〰' },
   ];
 
   function resize() {
@@ -264,13 +264,13 @@ function initDecoherence(container) {
     ctx.fillText('💨 air', W * 0.12, H * 0.15);
     ctx.fillText('💡 photons', W * 0.88, H * 0.15);
     ctx.fillText('🔥 heat', W * 0.12, H * 0.88);
-    ctx.fillText('⬇ gravity', W * 0.88, H * 0.88);
+    ctx.fillText('〰 vibration', W * 0.88, H * 0.88);
   }
 
   function updateStatus() {
     const pct = Math.round(coherence * 100);
     if (isolation < 5) {
-      status.textContent = `you. right now. no isolation. 10²⁵ interactions per nanosecond. coherence: ${pct}%`;
+      status.textContent = `you. right now. no isolation. billions of interactions every nanosecond. coherence: ${pct}%`;
       status.style.color = '#f85149';
     } else if (isolation < 40) {
       status.textContent = `some shielding. particles still getting through. coherence: ${pct}%`;

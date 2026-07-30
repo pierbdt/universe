@@ -241,12 +241,12 @@
   <script src="git-log.js"></script>
   <script src="vacuum.js"></script>
   <script src="quasar.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="marked.min.js"></script>
   <script>
     const renderer = new marked.Renderer();
     renderer.heading = function({ text, depth }) {
       const raw = text.replace(/<[^>]+>/g, '');
-      const id = raw.toLowerCase().replace(/[^\w]+/g, '-').replace(/-+$/, '');
+      const id = raw.toLowerCase().replace(/[^\w]+/g, '-').replace(/^-+|-+$/g, '');
       return `<h${depth} id="${id}">${text}</h${depth}>`;
     };
     marked.setOptions({ renderer });
@@ -296,6 +296,10 @@
         document.addEventListener('click', () => {
           document.querySelectorAll('.hint-popup').forEach(p => p.remove());
         });
+      })
+      .catch(() => {
+        document.getElementById('content').innerHTML =
+          '<p style="color:#8b949e">Failed to load the article. Refresh to try again.</p>';
       });
   </script>
 </body>

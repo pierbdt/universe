@@ -24,8 +24,21 @@ function initQuasar(container) {
   let photonX = 0;
   let commitTime = 0;
   let yearCount = 0;
+  let chosenPath = 0; // which lensed path survives on observation
   const totalYears = 5000000000;
   const travelDuration = 400; // frames to cross
+
+  // Quadratic bezier for the two gravitationally lensed paths around the galaxy
+  function pathPoint(side, t) {
+    const x0 = W * 0.14, y0 = H / 2;
+    const x1 = W * 0.5, y1 = side === 0 ? H * 0.18 : H * 0.82;
+    const x2 = W * 0.85, y2 = H / 2;
+    const mt = 1 - t;
+    return {
+      x: mt * mt * x0 + 2 * mt * t * x1 + t * t * x2,
+      y: mt * mt * y0 + 2 * mt * t * y1 + t * t * y2,
+    };
+  }
 
   // Stars background
   let stars = [];
@@ -100,6 +113,56 @@ function initQuasar(container) {
     ctx.fillText('5 billion years ago', qx, qy + 42);
   }
 
+  function drawGalaxy() {
+    const gx = W * 0.5;
+    const gy = H / 2;
+
+    const grad = ctx.createRadialGradient(gx, gy, 0, gx, gy, 16);
+    grad.addColorStop(0, '#a371f760');
+    grad.addColorStop(0.6, '#a371f715');
+    grad.addColorStop(1, 'transparent');
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.arc(gx, gy, 16, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = '#a371f7';
+    ctx.globalAlpha = 0.7;
+    ctx.beginPath();
+    ctx.ellipse(gx, gy, 8, 3, -0.4, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+
+    ctx.fillStyle = '#484f58';
+    ctx.font = '10px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('galaxy', gx, gy + 24);
+    ctx.fillText('(gravitational lens)', gx, gy + 36);
+  }
+
+  function drawLensedPaths() {
+    // Both paths alive while the transaction is open; only the surviving one after
+    for (let side = 0; side < 2; side++) {
+      if (phase === 'committed' && side !== chosenPath) continue;
+
+      ctx.strokeStyle = phase === 'committed' ? '#58a6ff' : '#e3b341';
+      ctx.globalAlpha = phase === 'committed' ? 0.8 : 0.15 + Math.sin(time * 0.04 + side * Math.PI) * 0.05;
+      ctx.lineWidth = phase === 'committed' ? 2 : 1;
+      if (phase !== 'committed') ctx.setLineDash([3, 5]);
+      ctx.beginPath();
+      const start = pathPoint(side, 0);
+      ctx.moveTo(start.x, start.y);
+      for (let t = 0.05; t <= 1.001; t += 0.05) {
+        const p = pathPoint(side, t);
+        ctx.lineTo(p.x, p.y);
+      }
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+    ctx.globalAlpha = 1;
+    ctx.lineWidth = 1;
+  }
+
   function drawTelescope() {
     const tx = W * 0.9;
     const ty = H / 2;
@@ -129,37 +192,39 @@ function initQuasar(container) {
   function drawPhoton() {
     if (phase === 'committed') return;
 
-    const startX = W * 0.14;
-    const endX = W * 0.85;
-    const y = H / 2;
-    const x = startX + (endX - startX) * (photonX / travelDuration);
+    const progress = Math.min(photonX / travelDuration, 1);
 
-    // Trail
-    const trailLen = Math.min(photonX, 60);
-    for (let i = 0; i < trailLen; i++) {
-      const tx = x - i * (endX - startX) / travelDuration;
-      if (tx < startX) break;
-      const alpha = (1 - i / trailLen) * 0.3;
-      ctx.globalAlpha = alpha;
+    // One photon, both paths at once — a ghost on each side of the lens
+    for (let side = 0; side < 2; side++) {
+      const pos = pathPoint(side, progress);
+
+      // Trail along the curve
+      const trailSteps = 20;
+      for (let i = 1; i <= trailSteps; i++) {
+        const tt = progress - i * 0.008;
+        if (tt < 0) break;
+        const tp = pathPoint(side, tt);
+        ctx.globalAlpha = (1 - i / trailSteps) * 0.15;
+        ctx.fillStyle = '#e3b341';
+        ctx.beginPath();
+        ctx.arc(tp.x, tp.y, 1, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+
+      // Ghost photon — half-real until the transaction closes
+      const pulse = 4 + Math.sin(time * 0.08 + side * Math.PI) * 2;
+      ctx.globalAlpha = 0.12;
       ctx.fillStyle = '#e3b341';
       ctx.beginPath();
-      ctx.arc(tx, y + Math.sin((tx * 0.05) + time * 0.05) * 4, 1, 0, Math.PI * 2);
+      ctx.arc(pos.x, pos.y, pulse + 4, 0, Math.PI * 2);
       ctx.fill();
+      ctx.globalAlpha = 0.55;
+      ctx.beginPath();
+      ctx.arc(pos.x, pos.y, 3, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalAlpha = 1;
     }
-    ctx.globalAlpha = 1;
-
-    // Photon
-    const pulse = 4 + Math.sin(time * 0.08) * 2;
-    ctx.globalAlpha = 0.2;
-    ctx.fillStyle = '#e3b341';
-    ctx.beginPath();
-    ctx.arc(x, y, pulse + 4, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.globalAlpha = 1;
-    ctx.fillStyle = '#e3b341';
-    ctx.beginPath();
-    ctx.arc(x, y, 3, 0, Math.PI * 2);
-    ctx.fill();
   }
 
   function drawTimeline() {
@@ -195,11 +260,6 @@ function initQuasar(container) {
     if (phase !== 'committed') return;
     const e = time - commitTime;
 
-    const tx = W * 0.9;
-    const ty = H / 2;
-    const startX = W * 0.14;
-    const endX = W * 0.85;
-
     // Short bright white flash
     if (e < 8) {
       const alpha = 1 - e / 8;
@@ -209,21 +269,10 @@ function initQuasar(container) {
       ctx.globalAlpha = 1;
     }
 
-    // Solid blue line across the full path (instant, stays permanent)
-    ctx.strokeStyle = '#58a6ff';
-    ctx.lineWidth = 2;
-    ctx.globalAlpha = 0.8;
-    ctx.beginPath();
-    ctx.moveTo(startX, ty);
-    ctx.lineTo(endX, ty);
-    ctx.stroke();
-    ctx.globalAlpha = 1;
-    ctx.lineWidth = 1;
-
     // Committed dot at telescope
     ctx.fillStyle = '#58a6ff';
     ctx.beginPath();
-    ctx.arc(endX, ty, 5, 0, Math.PI * 2);
+    ctx.arc(W * 0.85, H / 2, 5, 0, Math.PI * 2);
     ctx.fill();
   }
 
@@ -237,13 +286,15 @@ function initQuasar(container) {
       ctx.fillStyle = '#58a6ff';
       ctx.font = '10px monospace';
       ctx.textAlign = 'center';
-      ctx.fillText('git push --force', W / 2, 18);
+      ctx.fillText('git commit && git push', W / 2, 18);
     }
   }
 
   function draw() {
     ctx.clearRect(0, 0, W, H);
     drawStars();
+    drawLensedPaths();
+    drawGalaxy();
     drawQuasar();
     drawTelescope();
     drawTimeline();
@@ -263,14 +314,14 @@ function initQuasar(container) {
       if (photonX >= travelDuration) {
         phase = 'arrived';
         yearCount = totalYears;
-        status.textContent = 'photon arrived. 5 billion years of travel. still staged. click the telescope.';
+        status.textContent = 'photon arrived. 5 billion years, both paths around the galaxy, still open. click the telescope.';
         status.style.color = '#e3b341';
         canvas.style.cursor = 'pointer';
       }
     } else if (phase === 'committed') {
       const e = time - commitTime;
       if (e === 1) {
-        status.innerHTML = '<span style="color:#58a6ff">git push --force</span> — committed. retroactively timestamped: 5,000,000,000 years ago.';
+        status.innerHTML = '<span style="color:#58a6ff">git commit && git push</span> — transaction closed: now. not backdated. for 5 billion years the log held nothing.';
       }
     }
   }
@@ -279,6 +330,7 @@ function initQuasar(container) {
     if (phase === 'arrived') {
       phase = 'committed';
       commitTime = time;
+      chosenPath = Math.random() < 0.5 ? 0 : 1;
       canvas.style.cursor = 'default';
     }
   });
